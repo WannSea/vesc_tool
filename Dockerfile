@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS build-stage
 
 ARG VESC_RELEASE=6_05
 ARG DEBIAN_FRONTEND=noninteractive
@@ -32,7 +32,8 @@ RUN apt install -y qtbase5-dev \
                     libqt5serialport5-dev
 RUN ./build_lin_original_only
 
-WORKDIR /usr/app/vesc_tool/build/lin
-RUN cp vesc_tool_6.06 /usr/bin/vesc_tool
+
+FROM ubuntu:22.04 AS run-stage
+COPY --from=build-stage /usr/app/vesc_tool/build/lin/vesc_tool_6.06 /usr/bin/vesc_tool
 
 ENTRYPOINT ["vesc_tool", "--offscreen", "--tcpServer 65102"]
