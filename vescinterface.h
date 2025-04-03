@@ -192,6 +192,9 @@ public:
     Q_INVOKABLE QVariantList listSerialPorts();
     QList<QString> listCANbusInterfaces();
     Q_INVOKABLE bool connectCANbus(QString backend, QString ifName, int bitrate);
+    bool connectCANbus(QString canIf, int bitrate) {
+        return connectCANbus("socketcan", canIf, bitrate);
+    }
     Q_INVOKABLE bool isCANbusConnected();
     Q_INVOKABLE void setCANbusReceiverID(int node_ID);
     Q_INVOKABLE void scanCANbus();

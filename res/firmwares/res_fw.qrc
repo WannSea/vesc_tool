@@ -1,0 +1,7 @@
+
+<RCC>
+   <qresource prefix="/res/firmwares/">
+        <file>100_250/VESC_default.bin</file>
+   </qresource>
+</RCC>
+
