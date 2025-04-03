@@ -1,0 +1,6 @@
+services:
+  vesc_tool:
+    build: .
+    image: vesc_tool
+    network_mode: host
+    entrypoint: vesc_tool --offscreen --tcpServer 65102 --canIf can0
