@@ -92,6 +92,8 @@ static void showHelp()
     qDebug() << "--useBoardSetupWindow : Start board setup window instead of the main UI";
     qDebug() << "--xmlConfToCode [xml-file] : Generate C code from XML configuration file (the files are saved in the same directory as the XML)";
     qDebug() << "--vescPort [port] : VESC Port for commands that connect, e.g. /dev/ttyACM0. If this command is left out autoconnect will be used.";
+    qDebug() << "--vescCanIf [interface] : VESC CAN Interface for commands that connect";
+    qDebug() << "--vescCanBitrate [bitrate] : VESC CAN Bitrate for commands that connect, defaults to 500000";
     qDebug() << "--canFwd [canId] : Can ID for CAN forwarding";
     qDebug() << "--getMcConf [confPath] : Connect and read motor configuration and store the XML to confPath.";
     qDebug() << "--setMcConf [confPath] : Connect and write motor configuration XML from confPath.";
@@ -298,6 +300,8 @@ int main(int argc, char *argv[])
     QStringList pkgArgs;
     QString xmlCodePath = "";
     QString vescPort = "";
+    QString vescCanIf = "";
+    int vescCanBitrate = 500000;
     int canFwd = -1;
     QString getMcConfPath = "";
     QString setMcConfPath = "";
@@ -475,6 +479,30 @@ int main(int argc, char *argv[])
             } else {
                 i++;
                 qCritical() << "No port specified";
+                return 1;
+            }
+        }
+
+        if (str == "--vescCanIf") {
+            if ((i + 1) < args.size()) {
+                i++;
+                vescCanIf = args.at(i);
+                found = true;
+            } else {
+                i++;
+                qCritical() << "No can interface specified";
+                return 1;
+            }
+        }
+
+        if (str == "--vescCanBitrate") {
+              if ((i + 1) < args.size()) {
+                i++;
+                vescCanBitrate = args.at(i).toInt(),
+                found = true;
+            } else {
+                i++;
+                qCritical() << "No can bitrate specified";
                 return 1;
             }
         }
