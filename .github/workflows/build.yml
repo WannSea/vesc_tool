@@ -29,6 +29,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
         id: push
@@ -37,8 +39,11 @@ jobs:
           platforms: linux/arm64 #, linux/amd64,
           context: .
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
         with:
