@@ -302,6 +302,8 @@ int main(int argc, char *argv[])
     QString vescPort = "";
     QString vescCanIf = "";
     int vescCanBitrate = 500000;
+    int vescCanId = 1;
+
     int canFwd = -1;
     QString getMcConfPath = "";
     QString setMcConfPath = "";
@@ -503,6 +505,18 @@ int main(int argc, char *argv[])
             } else {
                 i++;
                 qCritical() << "No can bitrate specified";
+                return 1;
+            }
+        }
+
+        if (str == "--vescCanId") {
+              if ((i + 1) < args.size()) {
+                i++;
+                vescCanId = args.at(i).toInt(),
+                found = true;
+            } else {
+                i++;
+                qCritical() << "No can ID specified";
                 return 1;
             }
         }
@@ -1011,7 +1025,8 @@ int main(int argc, char *argv[])
             if (!vescPort.isEmpty()) {
                 ok = vesc->connectSerial(vescPort);
             } else if (!vescCanIf.isEmpty()) {
-                qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate;
+                qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate << " for ID " << vescCanId;
+                vesc->setCANbusReceiverID(vescCanId);
                 ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
             }  else {
                 ok = vesc->autoconnect();
