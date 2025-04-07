@@ -1422,10 +1422,6 @@ int main(int argc, char *argv[])
         app = new QCoreApplication(argc, argv);
         vesc = new VescInterface;
 
-        // Modify
-        vesc->setCANbusReceiverID(vescCanId);
-        vesc->commands()->setSendCan(true, vescCanId);
-
         vesc->fwConfig()->loadParamsXml("://res/config/fw.xml");
         Utility::configLoadLatest(vesc);
 
