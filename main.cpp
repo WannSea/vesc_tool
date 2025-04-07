@@ -1013,7 +1013,6 @@ int main(int argc, char *argv[])
             } else if (!vescCanIf.isEmpty()) {
                 qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate;
                 ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
-                vesc->scanCANbus();
             }  else {
                 ok = vesc->autoconnect();
             }
