@@ -34,8 +34,10 @@ RUN ./build_lin_original_only
 
 
 FROM ubuntu:22.04 AS run-stage
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt update
-RUN apt install     libqt5svg5 \
+RUN apt install -y  libqt5svg5 \
                     libqt5serialbus5 \
                     libqt5gamepad5 \
                     libqt5serialport5
