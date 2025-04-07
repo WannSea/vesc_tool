@@ -34,6 +34,6 @@ RUN ./build_lin_original_only
 
 
 FROM ubuntu:22.04 AS run-stage
-COPY --from=build-stage /usr/app/vesc_tool/build/lin/vesc_tool_6.06 /usr/bin/vesc_tool
+COPY --from=build-stage /usr/app/vesc_tool/build/lin/vesc_tool_6.05 /usr/bin/vesc_tool
 
 ENTRYPOINT ["vesc_tool", "--offscreen", "--tcpServer 65102"]
