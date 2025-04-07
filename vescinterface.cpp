@@ -3387,7 +3387,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
                 qDebug() << "Write single frame of multi for target id " << target_id; 
 
                 mCanDevice->waitForFramesWritten(5);
-//                QThread::msleep(5);
+                QThread::msleep(5);
                 payload.clear();
             }
 
@@ -3405,7 +3405,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
                 qDebug() << "Write single frame of multi 2 for target id " << target_id; 
 
                 mCanDevice->waitForFramesWritten(5);
-//                QThread::msleep(5);
+                QThread::msleep(5);
                 payload.clear();
             }
 
@@ -3427,7 +3427,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
         }
     }
 #endif
-
+git
     if (mTcpConnected && mTcpSocket->isOpen()) {
         mTcpSocket->write(data);
         mTcpSocket->flush();
