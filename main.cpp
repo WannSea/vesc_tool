@@ -1026,6 +1026,7 @@ int main(int argc, char *argv[])
                 ok = vesc->connectSerial(vescPort);
             } else if (!vescCanIf.isEmpty()) {
                 qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate << " for ID " << vescCanId;
+                set.setValue("CANbusLastDeviceID", vescCanId);
                 vesc->setCANbusReceiverID(vescCanId);
                 ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
             }  else {
