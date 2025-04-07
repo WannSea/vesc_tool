@@ -3427,7 +3427,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
         }
     }
 #endif
-git
+
     if (mTcpConnected && mTcpSocket->isOpen()) {
         mTcpSocket->write(data);
         mTcpSocket->flush();
