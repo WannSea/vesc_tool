@@ -2,7 +2,7 @@
 
 set -e
 
-FWPATH="../../ARM/STM_Eclipse/BLDC_4_ChibiOS/"
+FWPATH="../bldc/"
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 rm -rf $FWPATH/package/*
