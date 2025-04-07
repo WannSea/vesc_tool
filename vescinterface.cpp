@@ -3348,6 +3348,9 @@ void VescInterface::packetDataToSend(QByteArray &data)
         }
 
         if (data.size() <= 6) { // Send packet in a single frame
+
+            qDebug() << "Write single frame for target id " << target_id; 
+
             data.prepend(char(0)); // Process packet at receiver
             data.prepend(char(254)); // VESC Tool sender ID
 
@@ -3381,6 +3384,8 @@ void VescInterface::packetDataToSend(QByteArray &data)
                                  uint32_t(CAN_PACKET_FILL_RX_BUFFER << 8));
 
                 mCanDevice->writeFrame(frame);
+                qDebug() << "Write single frame of multi for target id " << target_id; 
+
                 mCanDevice->waitForFramesWritten(5);
 //                QThread::msleep(5);
                 payload.clear();
@@ -3397,6 +3402,8 @@ void VescInterface::packetDataToSend(QByteArray &data)
                                  uint32_t(CAN_PACKET_FILL_RX_BUFFER_LONG << 8));
 
                 mCanDevice->writeFrame(frame);
+                qDebug() << "Write single frame of multi 2 for target id " << target_id; 
+
                 mCanDevice->waitForFramesWritten(5);
 //                QThread::msleep(5);
                 payload.clear();
@@ -3411,6 +3418,9 @@ void VescInterface::packetDataToSend(QByteArray &data)
             frame.setPayload(payload);
             frame.setFrameId(uint32_t(target_id) |
                              uint32_t(CAN_PACKET_PROCESS_RX_BUFFER << 8));
+
+            qDebug() << "Write last frame of multi for target id " << target_id; 
+
 
             mCanDevice->writeFrame(frame);
             mCanDevice->waitForFramesWritten(5);

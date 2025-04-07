@@ -1028,7 +1028,6 @@ int main(int argc, char *argv[])
                 qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate << " for ID " << vescCanId;
                 set.setValue("CANbusLastDeviceID", vescCanId);
                 vesc->setCANbusReceiverID(vescCanId);
-                vesc->commands()->setSendCan(true, vescCanId);
                 ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
             }  else {
                 ok = vesc->autoconnect();
