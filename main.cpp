@@ -980,10 +980,13 @@ int main(int argc, char *argv[])
             }
 
             bool ok = false;
-            if (vescPort.isEmpty()) {
-                ok = vesc->autoconnect();
-            } else {
+            if (!vescPort.isEmpty()) {
                 ok = vesc->connectSerial(vescPort);
+            } else if (!vescCanIf.isEmpty()) {
+                qDebug() << "Connecting to CAN bus: " << vescCanIf << " with bitrate " << vescCanBitrate;
+                ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
+            }  else {
+                ok = vesc->autoconnect();
             }
 
             if (ok) {
