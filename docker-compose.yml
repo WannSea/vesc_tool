@@ -1,6 +1,6 @@
 services:
   vesc_tool:
     build: .
-    image: vesc_tool
+    image: ghcr.io/wannsea/vesc_tool:release_6_05
     network_mode: host
-    entrypoint: vesc_tool --offscreen --tcpServer 65102 --canIf can0
+    entrypoint: vesc_tool --offscreen --tcpServer 65102 --vescCanIf can0

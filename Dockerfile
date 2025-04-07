@@ -6,18 +6,7 @@ RUN apt update
 # Install BLDC dependencies
 RUN apt install -y git build-essential libgl-dev libxcb-xinerama0 wget git-gui gcc-arm-none-eabi python3
 
-# Build BLDC firmware
-WORKDIR /usr/app/
-RUN git clone https://github.com/vedderb/bldc.git
-WORKDIR /usr/app/bldc/
-RUN git checkout release_${VESC_RELEASE}
-
-COPY . /usr/app/vesc_tool
-WORKDIR /usr/app/vesc_tool
-
-RUN ./build_cp_fw
-
-# Build VESC tool
+# Install VESC Tool dependencies
 RUN apt install -y qtbase5-dev \
                     qt5-qmake \
                     qtbase5-dev-tools \
@@ -30,17 +19,35 @@ RUN apt install -y qtbase5-dev \
                     qtpositioning5-dev \
                     libqt5gamepad5-dev \
                     libqt5serialport5-dev
+
+# Build BLDC firmware
+WORKDIR /usr/app/
+RUN git clone https://github.com/vedderb/bldc.git
+WORKDIR /usr/app/bldc/
+RUN git checkout release_${VESC_RELEASE}
+
+COPY . /usr/app/vesc_tool
+WORKDIR /usr/app/vesc_tool
+
+RUN ./build_cp_fw
+
+# Build VESC tool
 RUN ./build_lin_original_only
 
 
 FROM ubuntu:22.04 AS run-stage
 ARG DEBIAN_FRONTEND=noninteractive
 
-# RUN apt update
-# RUN apt install -y  libqt5svg5 \
-#                     libqt5serialbus5 \
-#                     libqt5gamepad5 \
-#                     libqt5serialport5
+RUN apt update
+RUN apt install -y  libqt5svg5 \
+                    libqt5serialbus5 \
+                    libqt5gamepad5 \
+                    libqt5serialbus5-dev \
+                    libqt5positioning5 \
+                    libqt5bluetooth5 \
+                    libqt5quickwidgets5 \
+                    libqt5printsupport5 \
+                    libqt5serialport5
 
 COPY --from=build-stage /usr/app/vesc_tool/build/lin/vesc_tool_6.05 /usr/bin/vesc_tool
 
