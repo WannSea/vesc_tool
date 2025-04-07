@@ -36,11 +36,11 @@ RUN ./build_lin_original_only
 FROM ubuntu:22.04 AS run-stage
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update
-RUN apt install -y  libqt5svg5 \
-                    libqt5serialbus5 \
-                    libqt5gamepad5 \
-                    libqt5serialport5
+# RUN apt update
+# RUN apt install -y  libqt5svg5 \
+#                     libqt5serialbus5 \
+#                     libqt5gamepad5 \
+#                     libqt5serialport5
 
 COPY --from=build-stage /usr/app/vesc_tool/build/lin/vesc_tool_6.05 /usr/bin/vesc_tool
 
