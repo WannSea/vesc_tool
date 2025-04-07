@@ -1105,9 +1105,8 @@ int main(int argc, char *argv[])
         QTimer::singleShot(10, [&]() {
             int exitCode = 0;
             bool ok = false;
-            if (vescPort.isEmpty()) {
-                ok = vesc->autoconnect();
-            } else {
+            // ToDo: probably could be simplified. Just copy/pasted to not destroy anything.
+            if (!vescPort.isEmpty()) {
                 ok = vesc->connectSerial(vescPort);
                 if (ok) {
                     ok = Utility::waitSignal(vesc, SIGNAL(fwRxChanged(bool, bool)), 1000);
@@ -1115,6 +1114,16 @@ int main(int argc, char *argv[])
                         qWarning() << "Could not read firmware version";
                     }
                 }
+            } if (!vescCanIf.isEmpty()) {
+                ok = vesc->connectCANbus(vescCanIf, vescCanBitrate);
+                if (ok) {
+                    ok = Utility::waitSignal(vesc, SIGNAL(fwRxChanged(bool, bool)), 1000);
+                    if (!ok) {
+                        qWarning() << "Could not read firmware version";
+                    }
+                }
+            } else {
+                ok = vesc->autoconnect();
             }
 
             if (ok) {
