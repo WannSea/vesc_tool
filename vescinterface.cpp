@@ -3319,7 +3319,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
         // so always delay sending a bit in case a frame that expects a reply
         // was sent just previously. TODO: Figure out what the problem is.
         // Guess: Something in the CANable firmware.
-        QThread::msleep(5);
+        QThread::msleep(5);  // ToDo: does not work without it :/
 
         QCanBusFrame frame;
         frame.setExtendedFrameFormat(true);
@@ -3348,9 +3348,6 @@ void VescInterface::packetDataToSend(QByteArray &data)
         }
 
         if (data.size() <= 6) { // Send packet in a single frame
-
-            qDebug() << "Write single frame for target id " << target_id; 
-
             data.prepend(char(0)); // Process packet at receiver
             data.prepend(char(254)); // VESC Tool sender ID
 
@@ -3384,10 +3381,8 @@ void VescInterface::packetDataToSend(QByteArray &data)
                                  uint32_t(CAN_PACKET_FILL_RX_BUFFER << 8));
 
                 mCanDevice->writeFrame(frame);
-                qDebug() << "Write single frame of multi for target id " << target_id; 
-
                 mCanDevice->waitForFramesWritten(5);
-                QThread::msleep(5);
+                QThread::msleep(5); // ToDo: does not work without it :/
                 payload.clear();
             }
 
@@ -3405,7 +3400,7 @@ void VescInterface::packetDataToSend(QByteArray &data)
                 qDebug() << "Write single frame of multi 2 for target id " << target_id; 
 
                 mCanDevice->waitForFramesWritten(5);
-                QThread::msleep(5);
+                QThread::msleep(5);  // ToDo: does not work without it :/
                 payload.clear();
             }
 

@@ -2306,7 +2306,6 @@ void Commands::emitData(QByteArray data)
         }
     }
 
-    qDebug() << "Emitting data with mSendCan " << mSendCan << " and can id " << mCanId;
     if (mSendCan) {
         data.prepend((char)mCanId);
         data.prepend((char)COMM_FORWARD_CAN);
